@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Secured URL Shortener Dashboard</title>
+    <link rel="stylesheet" href="application.css" />
+  </head>
+  <body>
+    <div class="outerContainer">
+      <div class="container">
+        <form method="POST" action="/url">
+          <h2>Create a Short URL from Your Link</h2>
+          <input
+            type="text"
+            required
+            name="url"
+            placeholder="www.example.com"
+          />
+          <button class="generate" type="submit">Generate</button>
+        </form>
+        <% if (!locals.id && !(typeof locals.error !== 'undefined' &&
+        locals.error)) { %>
+        <div class="separator"></div>
+        <form method="GET" action="/">
+          <button class="backToHome" type="submit">Back to Home</button>
+        </form>
+        <% } %> <% if (locals.id || (typeof locals.error !== 'undefined' &&
+        locals.error)) { %>
+        <p>
+          <a
+            href="http://localhost:8001/short/<%= locals.error || locals.id %>"
+            target="_main"
+          >
+            http://localhost:8001/short/<%= locals.error || locals.id %>
+          </a>
+        </p>
+        <form method="GET" action="/app">
+          <button class="backToDashboard" type="submit">
+            Back to Dashboard
+          </button>
+        </form>
+        <% } %>
+      </div>
+      <% if (locals.urls) { %>
+      <table>
+        <thead>
+          <th>S. No</th>
+          <th>ShortId</th>
+          <th>Redirect</th>
+          <th>Clicks</th>
+        </thead>
+        <tbody>
+          <% locals.urls.forEach((url, index) => { %>
+          <tr>
+            <td class="centerAlign"><%= index + 1 %></td>
+            <td><%= url.shortId %></td>
+            <td class="truncate"><%= url.redirectURL %></td>
+            <td class="centerAlign"><%= url.visitHistory.length %></td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+      <% } %>
+    </div>
+  </body>
+</html>

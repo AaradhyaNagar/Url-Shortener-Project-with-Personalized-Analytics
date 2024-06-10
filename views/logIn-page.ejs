@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Secured URL Shortener Login Page</title>
+    <link rel="stylesheet" href="logIn.css" />
+  </head>
+  <body>
+    <h1>Secured URL Shortener</h1>
+    <div class="container">
+      <h3>Log In</h3>
+      <form method="POST" action="/login">
+        <input type="text" required name="email" placeholder="Email address" />
+        <input
+          type="password"
+          required
+          name="password"
+          placeholder="Password"
+        />
+        <button class="logIn" type="submit">Log in</button>
+        <div class="separator"></div>
+      </form>
+      <form method="GET" action="/register">
+        <button class="register" type="submit">Create a new account</button>
+      </form>
+      <div class="separator"></div>
+      <form method="GET" action="/">
+        <button class="backToHome" type="submit">Back To Home</button>
+        <% if (typeof error !== 'undefined' && error) { %>
+          <div class="errorMessage"><%= error %></div>
+          <% } %>
+      </form>
+    </div>
+  </body>
+</html>
