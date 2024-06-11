@@ -7,7 +7,9 @@ const PORT = 8001;
 
 const { checkAuth } = require("./middlewares/auth");
 
-const homeRoute = require("./routes/staticRouter");
+const { restrictToLoggedInUserOnly } = require("./middlewares/auth");
+
+const { homeRoute, appRoute } = require("./routes/staticRouter");
 const { registerRoute, logInRoute } = require("./routes/user");
 const { generateRoute, redirectRoute } = require("./routes/url");
 
@@ -25,7 +27,9 @@ app.use(cookieParser());
 
 app.use("/", checkAuth, homeRoute);
 
-app.use("/url", generateRoute);
+app.use("/app", restrictToLoggedInUserOnly, appRoute);
+
+app.use("/url", restrictToLoggedInUserOnly, generateRoute);
 app.use("/short", redirectRoute);
 
 app.use("/login", logInRoute);
